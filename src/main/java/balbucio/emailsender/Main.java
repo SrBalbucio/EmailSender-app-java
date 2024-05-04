@@ -35,6 +35,7 @@ public class Main {
                     .addText("Qual é o assunto?")
                     .addText("Insira uma descrição")
                     .addTextArea("Insira o conteúdo HTML:")
+                    .addTextArea("Quem enviou este email?")
                     .addButton("Adicionar arquivo", () -> {
                         File f = ui.showFileSelection("Adicionar arquivos para enviar");
                         atts.add(f);
@@ -56,13 +57,13 @@ public class Main {
         }
     }
 
-    private static HtmlEmail getHtmlEmail(LoginCredentials login, Form form, List<File> atts) throws EmailException {
+    private static HtmlEmail getHtmlEmail(LoginCredentials login,Form form, List<File> atts) throws EmailException {
         HtmlEmail mail = new HtmlEmail();
         mail.setHostName("smtp.zoho.com");
         mail.setSmtpPort(465);
         mail.setAuthentication(login.getUsername(), login.getPassword());
         mail.setSSLOnConnect(true);
-        mail.setFrom("noreply@hyperpowered.net");
+        mail.setFrom(form.getByIndex(3).asString());
         mail.setSubject(form.getByIndex(0).asString());
         mail.setTextMsg(form.getByIndex(1).asString());
         mail.setHtmlMsg(form.getByIndex(2).asString());
